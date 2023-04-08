@@ -503,6 +503,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1050253131444317801, guid: 053fca78e79b84555b06d33a74b63610, type: 3}
   m_PrefabInstance: {fileID: 2943367976962549399}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &513844709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513844710}
+  m_Layer: 0
+  m_Name: SlashAnimSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513844710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513844709}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.87, y: 0.08, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1488859032}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,6 +1489,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1656209574}
+  - {fileID: 513844710}
   m_Father: {fileID: 16589560}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1499,14 +1531,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1656209573}
-  m_LocalRotation: {x: -0, y: -0, z: -0.90089357, w: -0.43404016}
-  m_LocalPosition: {x: 0.22, y: 0.89, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.698854, w: -0.7152644}
+  m_LocalPosition: {x: 0.66, y: 0.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1488859032}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -231.448}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -271.33002}
 --- !u!212 &1656209575
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1592,6 +1624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6a3ae700d6b42a1a5c1f69b4a2c70b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slashAnimPrefab: {fileID: 355951891767154636, guid: 222d5df69b2c941ac9990b63fc951378, type: 3}
+  slashAnimSpawnPoint: {fileID: 513844710}
 --- !u!1001 &1763416592
 PrefabInstance:
   m_ObjectHideFlags: 0

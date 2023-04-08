@@ -5,14 +5,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool FacingLeft
+    {
+        get => _facingLeft;
+        set => _facingLeft = value;
+    }
+
     [SerializeField] private float moveSpeed = 1f;
-    
+
     private PlayerControls _playerControls;
     private Vector2 _movement;
     private Rigidbody2D _rb;
     private Animator _playerAnimator;
     private SpriteRenderer _playerSpriteRenderer;
-    
+
+    private bool _facingLeft = false;
+
     private static readonly int MoveX = Animator.StringToHash("moveX");
     private static readonly int MoveY = Animator.StringToHash("moveY");
 
@@ -23,7 +31,7 @@ public class PlayerController : MonoBehaviour
         _playerAnimator = GetComponent<Animator>();
         _playerSpriteRenderer = GetComponent<SpriteRenderer>();
     }
-    
+
     private void OnEnable()
     {
         _playerControls.Enable();
@@ -58,5 +66,6 @@ public class PlayerController : MonoBehaviour
         var playerScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
         _playerSpriteRenderer.flipX = mousePosition.x < playerScreenPoint.x;
+        _facingLeft = mousePosition.x < playerScreenPoint.x;
     }
 }
