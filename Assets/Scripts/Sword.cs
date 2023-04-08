@@ -7,6 +7,7 @@ public class Sword : MonoBehaviour
 {
     [SerializeField] private GameObject slashAnimPrefab;
     [SerializeField] private Transform slashAnimSpawnPoint;
+    [SerializeField] private Transform weaponCollider;
     
     private PlayerControls _playerControls;
     private Animator _animator;
@@ -43,12 +44,18 @@ public class Sword : MonoBehaviour
     private void TriggerAttack()
     {
         _animator.SetTrigger(Attack);
+        weaponCollider.gameObject.SetActive(true);
 
         _slashAnim = Instantiate(slashAnimPrefab, slashAnimSpawnPoint.position, Quaternion.identity);
         _slashAnim.transform.parent = this.transform.parent;
     }
 
-    public void SwingUpFlipAnimation()
+    public void DoneAttackingAnimationEvent()
+    {
+        weaponCollider.gameObject.SetActive(false);
+    }
+
+    public void SwingUpFlipAnimationEvent()
     {
         _slashAnim.gameObject.transform.rotation = Quaternion.Euler(-180, 0, 0);
 
@@ -58,7 +65,7 @@ public class Sword : MonoBehaviour
         }
     }
 
-    public void SwingDownFlipAnimation()
+    public void SwingDownFlipAnimationEvent()
     {
         _slashAnim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 
@@ -74,8 +81,15 @@ public class Sword : MonoBehaviour
         var playerScreenPoint = Camera.main.WorldToScreenPoint(_playerController.transform.position);
         var angle = Mathf.Atan2(mousePosition.y, mousePosition.x) * Mathf.Rad2Deg;
 
-        _activeWeapon.transform.rotation = mousePosition.x < playerScreenPoint.x
-            ? Quaternion.Euler(0, -180, angle)
-            : Quaternion.Euler(0, 0, angle);
+        if (mousePosition.x < playerScreenPoint.x)
+        {
+            _activeWeapon.transform.rotation = Quaternion.Euler(0, -180, angle);
+            weaponCollider.transform.rotation = Quaternion.Euler(0, -180, 0);
+        }
+        else
+        {
+            _activeWeapon.transform.rotation = Quaternion.Euler(0, 0, angle);
+            weaponCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 }
