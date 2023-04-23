@@ -8,11 +8,13 @@ public class Sword : MonoBehaviour
     [SerializeField] private GameObject slashAnimPrefab;
     [SerializeField] private Transform slashAnimSpawnPoint;
     [SerializeField] private Transform weaponCollider;
+    [SerializeField] private float attackDelayInSeconds = .5f;
     
     private PlayerControls _playerControls;
     private Animator _animator;
     private PlayerController _playerController;
     private ActiveWeapon _activeWeapon;
+    private bool _attackButtonDown, _isAttacking = false;
 
     private GameObject _slashAnim;
 
@@ -33,21 +35,36 @@ public class Sword : MonoBehaviour
 
     private void Start()
     {
-        _playerControls.Combat.Attack.started += _ => TriggerAttack();
+        _playerControls.Combat.Attack.started += _ => StartAttacking();
+        _playerControls.Combat.Attack.canceled += _ => StopAttacking();
     }
 
     private void Update()
     {
         MouseFollowWithOffset();
+        TriggerAttack();
+    }
+
+    private void StartAttacking()
+    {
+        _attackButtonDown = true;
+    }
+
+    private void StopAttacking()
+    {
+        _attackButtonDown = false;
+        _isAttacking = false;
     }
 
     private void TriggerAttack()
     {
+        if (!_attackButtonDown || _isAttacking) return;
+        _isAttacking = true;
         _animator.SetTrigger(Attack);
         weaponCollider.gameObject.SetActive(true);
-
         _slashAnim = Instantiate(slashAnimPrefab, slashAnimSpawnPoint.position, Quaternion.identity);
         _slashAnim.transform.parent = this.transform.parent;
+        StartCoroutine(AttackCDRoutine());
     }
 
     public void DoneAttackingAnimationEvent()
@@ -91,5 +108,11 @@ public class Sword : MonoBehaviour
             _activeWeapon.transform.rotation = Quaternion.Euler(0, 0, angle);
             weaponCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+    }
+
+    private IEnumerator AttackCDRoutine()
+    {
+        yield return new WaitForSeconds(attackDelayInSeconds);
+        _isAttacking = false;
     }
 }
