@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float dashMultiplier = 4f;
+    [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private TrailRenderer trailRenderer;
 
     private PlayerControls _playerControls;
     private Vector2 _movement;
@@ -21,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _playerSpriteRenderer;
 
     private bool _facingLeft = false;
+    private bool _isDashing = false;
 
     private static readonly int MoveX = Animator.StringToHash("moveX");
     private static readonly int MoveY = Animator.StringToHash("moveY");
@@ -34,6 +38,11 @@ public class PlayerController : MonoBehaviour
         _playerSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Start()
+    {
+        _playerControls.Combat.Dash.performed += _ => Dash();
+    }
+    
     private void OnEnable()
     {
         _playerControls.Enable();
@@ -69,5 +78,24 @@ public class PlayerController : MonoBehaviour
 
         _playerSpriteRenderer.flipX = mousePosition.x < playerScreenPoint.x;
         _facingLeft = mousePosition.x < playerScreenPoint.x;
+    }
+
+    private void Dash()
+    {
+        if (_isDashing) return;
+        moveSpeed *= dashMultiplier;
+        _isDashing = true;
+        trailRenderer.emitting = true;
+        StartCoroutine(EndDashRoutine());
+    }
+
+    private IEnumerator EndDashRoutine()
+    {
+        var dashDuration = .2f;
+        yield return new WaitForSeconds(dashDuration);
+        moveSpeed /= dashMultiplier;
+        trailRenderer.emitting = false;
+        yield return new WaitForSeconds(dashCooldown);
+        _isDashing = false;
     }
 }
